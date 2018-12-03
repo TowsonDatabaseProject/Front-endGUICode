@@ -14,13 +14,13 @@ class Profile {
     }
 
     public getProfileInfo(): String {
-        this.firstName = connection.query('SELECT first_name FROM users WHERE id_number = ' + this.id, (err) => {
+        this.firstName = connection.query('SELECT Fname FROM User WHERE UserID = ' + this.id, (err) => {
             if (err) {
                 throw err;
             }
             console.log('got firstName');
         });
-        this.lastName = connection.query('SELECT last_name FROM users WHERE id_number = ' + this.id, (err) => {
+        this.lastName = connection.query('SELECT Lname FROM User WHERE UserID = ' + this.id, (err) => {
             if (err) {
                 throw err;
             }
@@ -33,7 +33,7 @@ class Profile {
     }
 
     public getLibraryName(): String[] {
-        this.libraryName.fill(connection.query('SELECT name FROM library WHERE id_number = ' + this.id, (err) => {
+        this.libraryName.fill(connection.query('SELECT LibID FROM Library WHERE UserID = ' + this.id, (err) => {
             if (err) {
                 throw err;
             }

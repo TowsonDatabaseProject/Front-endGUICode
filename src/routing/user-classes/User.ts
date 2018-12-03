@@ -23,12 +23,12 @@ export default class User {
     }
 
     public validateUser(currentName: String, currentPassword: String): boolean {
-        connection.query('SELECT password FROM users WHERE username = ' + currentName, (err, result) => {
+        connection.query('SELECT Password FROM User WHERE Username = ' + currentName, (err, result) => {
             if (err) {
                 throw err;
             } else if (result === currentPassword) {
                 this.username = currentName;
-                this.id = connection.query('SELECT id_number FROM users WHERE username = ' + currentName, (error) => {
+                this.id = connection.query('SELECT UserID FROM User WHERE Username = ' + currentName, (error) => {
                     if (error) {
                         throw err;
                     }
@@ -48,7 +48,7 @@ export default class User {
     }
 
     private setAdmin() {
-        const adminArray: String[] = connection.query('SELECT id_number FROM admin', (err) => {
+        const adminArray: String[] = connection.query('SELECT AdminID FROM Admin', (err) => {
             if (err) {
                 throw err;
             }

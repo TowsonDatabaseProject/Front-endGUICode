@@ -10,6 +10,12 @@ export default class AdminUser extends User {
     }
 
     public getLevelOfAccess() {
-        this.levelOfAccess = connection.query('SELECT access_level FROM admin_table WHERE');
+        this.levelOfAccess = connection.query('SELECT LevelOfAccess FROM Admin WHERE AdminID = ' + super.getID, (err) => {
+            if (err) {
+                throw err;
+            }
+            console.log('Got level of access for admin');
+        });
+        return this.levelOfAccess;
     }
 }
