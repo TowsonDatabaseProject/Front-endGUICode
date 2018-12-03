@@ -3,6 +3,7 @@ import profile from './Profile';
 import connection from './../general-server-classes/Database';
 import { isNull } from 'util';
 import admin from './AdminUser';
+import { _appIdRandomProviderFactory } from '@angular/core/src/application_tokens';
 
 export default class User {
 
@@ -39,6 +40,28 @@ export default class User {
             }
         });
         // If the id has been set, then we will return true.
+        return !isNull(this.id);
+    }
+
+    public signUpUser(newUsername: String, newPassword: String, firstName: String, lastName: String) {
+        this.username = newUsername;
+        // tslint:disable-next-line:prefer-const
+        let userArray: String[];
+        userArray.fill(connection.query('SELECT Username FROM User', (err) => {
+            if (err) {
+                throw err;
+            }
+            console.log('Got the usernames.');
+        }, 0, -1));
+        userArray.forEach((value) => {
+            if (!(this.username === value)) {
+                connection.query('INSERT INTO User (Username, Password, Fname, Lname, UserID) VALUES ('
+                + this.username + ', ' + newPassword + ', ' + firstName + ', ' + lastName + ', 0602232');
+            } else {
+                console.log('Username already exists.');
+                return 'Username already exists, try again';
+            }
+        });
         return !isNull(this.id);
     }
 
