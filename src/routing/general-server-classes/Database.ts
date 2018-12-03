@@ -1,22 +1,22 @@
 
 
-class Database{
-    private mysql = require('mysql')
-    
-    connection = this.mysql.createConnection({
-        host: "to be entered",
-        username: "alynch14",
-        password: ""
-    })
+class Database {
+    private mysql = require('mysql');
 
-    constructor(){
-        this.connection.connect((err) =>{
-            if(err){
+    connection = this.mysql.createConnection({
+        host: 'alynch14DB',
+        username: 'alynch14',
+        password: ''
+    });
+
+    constructor() {
+        this.connection.connect((err) => {
+            if (err) {
                 throw err;
             }
-            console.log("Connected!")
-        })
+            console.log('Connected!');
+        });
     }
 }
 
-export default new Database().connection
+export default new Database().connection;
