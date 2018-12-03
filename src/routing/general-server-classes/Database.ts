@@ -4,9 +4,10 @@ class Database {
     private mysql = require('mysql');
 
     connection = this.mysql.createConnection({
-        host: 'alynch14DB',
+        host: '127.0.0.1:3360',
         username: 'alynch14',
-        password: ''
+        password: 'Cosc*kffb',
+        database: 'alynch14db'
     });
 
     constructor() {

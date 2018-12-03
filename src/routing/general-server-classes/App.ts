@@ -16,7 +16,7 @@ class App {
 
     constructor() {
         this.express = express();
-        this.user = new User();
+        this.user = new User(null);
         this.mountRoutes();
     }
 
@@ -41,7 +41,7 @@ class App {
         });
 
         if (this.user.isAdmin()) {
-            // this.user = new AdminUser(this.user)
+            this.user = new AdminUser(this.user);
         }
 
         router.get('/:userID/main_page', (req, res) => {
