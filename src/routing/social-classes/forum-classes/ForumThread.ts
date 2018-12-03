@@ -14,19 +14,19 @@ export default class ForumThread {
 
     public getThreadInfo(titleOfThread: String) {
         this.title = titleOfThread;
-        this.id = connection.query('SELECT TopicID FROM Topics WHERE Title = ' + this.title, (err) => {
+        this.id = connection.query('SELECT TopicID FROM Topics WHERE Title = \'' + this.title + '\'', (err) => {
             if (err) {
                 throw err;
             }
             console.log('Got thread ID');
         });
-        this.question = connection.query('SELECT Body FROM Topics WHERE TopicID = ' + this.id, (err) => {
+        this.question = connection.query('SELECT Body FROM Topics WHERE TopicID = \'' + this.id + '\'', (err) => {
             if (err) {
                 throw err;
             }
             console.log('Got thread question');
         });
-        this.comments.fill(connection.query('SELECT Message FROM Comments WHERE ID = ' + this.id, (err) => {
+        this.comments.fill(connection.query('SELECT Message FROM Comments WHERE ID = \'' + this.id + '\'', (err) => {
             if (err) {
                 throw err;
             }

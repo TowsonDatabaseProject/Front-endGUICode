@@ -3,7 +3,8 @@ import profile from './Profile';
 import connection from './../general-server-classes/Database';
 import { isNull } from 'util';
 import admin from './AdminUser';
-import { _appIdRandomProviderFactory } from '@angular/core/src/application_tokens';
+import { _appIdRandomProviderFactory, APP_ID_RANDOM_PROVIDER } from '@angular/core/src/application_tokens';
+import { getRandomString } from 'selenium-webdriver/safari';
 
 export default class User {
 
@@ -24,12 +25,12 @@ export default class User {
     }
 
     public validateUser(currentName: String, currentPassword: String): boolean {
-        connection.query('SELECT Password FROM User WHERE Username = ' + currentName, (err, result) => {
+        connection.query('SELECT Password FROM User WHERE Username = \'' + currentName + '\'', (err, result) => {
             if (err) {
                 throw err;
             } else if (result === currentPassword) {
                 this.username = currentName;
-                this.id = connection.query('SELECT UserID FROM User WHERE Username = ' + currentName, (error) => {
+                this.id = connection.query('SELECT UserID FROM User WHERE Username = \'' + currentName + '\'', (error) => {
                     if (error) {
                         throw err;
                     }
@@ -43,7 +44,7 @@ export default class User {
         return !isNull(this.id);
     }
 
-    public signUpUser(newUsername: String, newPassword: String, firstName: String, lastName: String) {
+    public signUpUser(newUsername: String, newPassword: String, firstName: String, lastName: String, newID: String) {
         this.username = newUsername;
         // tslint:disable-next-line:prefer-const
         let userArray: String[];
@@ -55,8 +56,8 @@ export default class User {
         }, 0, -1));
         userArray.forEach((value) => {
             if (!(this.username === value)) {
-                connection.query('INSERT INTO User (Username, Password, Fname, Lname, UserID) VALUES ('
-                + this.username + ', ' + newPassword + ', ' + firstName + ', ' + lastName + ', 0602232');
+                connection.query('INSERT INTO User (Username, Password, Fname, Lname, UserID) VALUES (\''
+                + this.username + '\', \'' + newPassword + '\', \'' + firstName + '\', \'' + lastName + '\', \'' + newID + '\'');
             } else {
                 console.log('Username already exists.');
                 return 'Username already exists, try again';

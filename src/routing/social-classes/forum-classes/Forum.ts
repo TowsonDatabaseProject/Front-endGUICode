@@ -4,7 +4,7 @@ export default class Forum {
     private threads: String[];
 
     constructor() {
-        this.threads.fill(connection.query('SELECT Topics FROM DebateBoard', (err) => {
+        this.threads.fill(connection.query('SELECT TopicTitle FROM Topics', (err) => {
             if (err) {
                 throw err;
             }

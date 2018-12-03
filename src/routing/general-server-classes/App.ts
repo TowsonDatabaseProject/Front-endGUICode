@@ -1,12 +1,13 @@
 import * as express from 'express';
 import User from './../user-classes/User';
 import userProfile from './../user-classes/Profile';
-import library from '../library-classes/Library';
 import Profile from './../user-classes/Profile';
 import PublisherLibrary from '../library-classes/PublisherLibrary';
 import AdminUser from '../user-classes/AdminUser';
 import Thread from './../social-classes/forum-classes/ForumThread';
 import Forum from './../social-classes/forum-classes/Forum';
+import Library from '../library-classes/Library';
+import { nextContext } from '@angular/core/src/render3';
 
 /**
  * This class sets up or REST API client. We mount all of the roots in this class so that we can eventually
@@ -17,23 +18,32 @@ class App {
     private user: User;
     private thread: Thread;
     private forum: Forum;
+    private id: number;
+    private userLibrary: Library;
 
     constructor() {
         this.express = express();
         this.user = new User(null);
         this.forum = new Forum();
+        this.id = 0;
         this.mountRoutes();
     }
 
     // Mounts all routes for our application
     private mountRoutes (): void {
         const router = express.Router();
+        // Home page
         router.get('/', (req, res) => {
             res.json({
                 message: 'Home Page'
             });
         });
-
+        // Sign up new user
+        router.get('/sign-up', (req, res) => {
+            this.id++;
+            this.user.signUpUser(req.param.userName, req.param.password, req.param.firstName, req.param.lastName, '0' + this.id);
+        });
+        // Defines userID parameter for request
         router.param('userID', (req, res, next, userID) => {
             if (this.user.validateUser(req.param.userName, req.param.password)) {
                 userID = this.user.getID();
@@ -43,9 +53,10 @@ class App {
             }
             next();
         });
-
-        router.get('/:userID', (req, res) => {
+        // Get the userID to take user to next webpage
+        router.get('/:userID', (req, res, next) => {
             res.send(req.param.userID);
+            next();
         });
 
         router.get('/:userID/main_page', (req, res) => {
@@ -57,7 +68,8 @@ class App {
             res.send(Profile);
         });
         router.get('/:userID/library', (req, res) => {
-
+            this.userLibrary = new Library('MyGameLibrary', this.user.getID());
+            res.json(this.userLibrary.getGameList());
         });
         router.get('/:console', (req, res) => {
 
