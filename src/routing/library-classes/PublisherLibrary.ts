@@ -7,19 +7,21 @@ export default class PublisherLibrary extends Library {
 
     constructor(name: String) {
         super(name);
-        this.subsidiaries.fill(connection.query('SELECT Subsidiaries FROM Publisher WHERE Name = ' + name, (err) => {
+    }
+
+    public async getBusinessStuff() {
+        this.subsidiaries.fill(await connection.query('SELECT Subsidiaries FROM Publisher WHERE Name = ' + name, (err) => {
             if (err) {
                 throw err;
             }
             console.log('Got the subsidiaries.');
         }));
-        this.parentCompany = connection.query('SELECT ParentCompany FROM Publisher WHERE Name = ' + name, (err) => {
+        this.parentCompany = await connection.query('SELECT ParentCompany FROM Publisher WHERE Name = ' + name, (err) => {
             if (err) {
                 throw err;
             }
         });
     }
-
     public getSubsidiaries(): String[] {
         return this.subsidiaries;
     }

@@ -12,21 +12,21 @@ export default class ForumThread {
         this.id = null;
     }
 
-    public getThreadInfo(titleOfThread: String) {
+    public async getThreadInfo(titleOfThread: String) {
         this.title = titleOfThread;
-        this.id = connection.query('SELECT TopicID FROM Topics WHERE Title = ' + this.title, (err) => {
+        this.id = await connection.query('SELECT TopicID FROM Topics WHERE Title = ' + this.title, (err) => {
             if (err) {
                 throw err;
             }
             console.log('Got thread ID');
         });
-        this.question = connection.query('SELECT Body FROM Topics WHERE TopicID = ' + this.id, (err) => {
+        this.question = await connection.query('SELECT Body FROM Topics WHERE TopicID = ' + this.id, (err) => {
             if (err) {
                 throw err;
             }
             console.log('Got thread question');
         });
-        this.comments.fill(connection.query('SELECT Message FROM Comments WHERE ID = ' + this.id, (err) => {
+        this.comments.fill(await connection.query('SELECT Message FROM Comments WHERE ID = ' + this.id, (err) => {
             if (err) {
                 throw err;
             }

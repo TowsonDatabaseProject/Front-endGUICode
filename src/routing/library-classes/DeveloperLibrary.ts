@@ -7,20 +7,22 @@ export default class DeveloperLibrary extends Library {
 
     public constructor(name: String) {
         super(name);
-        this.companyName = connection.query('SELECT Name FROM Developer WHERE LibID = ' + super.getLibID, (err) => {
+    }
+
+    public async fillInfo() {
+        this.companyName = await connection.query('SELECT Name FROM Developer WHERE LibID = ' + super.getLibID, (err) => {
             if (err) {
                 throw err;
             }
             console.log('Got dev name');
         });
-        this.yearFounded = connection.query('SELECT YearFounded FROM Developer WHERE LibID = ' + super.getLibID, (err) => {
+        this.yearFounded = await connection.query('SELECT YearFounded FROM Developer WHERE LibID = ' + super.getLibID, (err) => {
             if (err) {
                 throw err;
             }
             console.log('Got year founded.');
         });
     }
-
     public getCompanyName(): String {
         return this.companyName;
     }

@@ -10,8 +10,8 @@ export default class Library {
         this.gameList = Array();
     }
 
-    public getGameList(): String[] {
-        this.gameList.fill(connection.query('SELECT ', (err) => {
+    public async getGameList() {
+        this.gameList.fill(await connection.query('SELECT ', (err) => {
             if (err) {
                 throw err;
             }
