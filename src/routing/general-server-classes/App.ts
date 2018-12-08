@@ -46,7 +46,9 @@ class App {
         // Defines userID parameter for request
         router.param('userID', (req, res, next, userID) => {
             if (this.user.validateUser(req.param.userName, req.param.password)) {
-                userID = this.user.getID();
+                userID = async() => {
+                    await this.user.getID();
+                };
             }
             if (this.user.isAdmin()) {
                 this.user = new AdminUser(this.user);

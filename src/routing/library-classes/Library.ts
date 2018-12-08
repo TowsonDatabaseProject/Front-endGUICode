@@ -12,6 +12,7 @@ export default class Library {
         this.ownerID = ownedID;
     }
 
+<<<<<<< HEAD
     public getGameList(): String[] {
         this.libID = connection.query('SELECT LibName FROM Library WHERE OwnerID = \'' + this.ownerID + '\'', (err) => {
             if (err) {
@@ -20,6 +21,10 @@ export default class Library {
             console.log('Got the libID');
         });
         this.gameList.fill(connection.query('SELECT Title FROM Game WHERE OwnedBy = \'' + this.libID + '\'' , (err) => {
+=======
+    public async getGameList() {
+        this.gameList.fill(await connection.query('SELECT ', (err) => {
+>>>>>>> bfd778cadf5afe27ec4b645a8c841f5a293d86c0
             if (err) {
                 throw err;
             }
