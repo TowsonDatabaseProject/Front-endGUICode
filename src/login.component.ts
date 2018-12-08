@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import 'rxjs/Rx';
 import { post, HttpClient } from 'selenium-webdriver/http';
 import { get } from 'https';
+import * as sha from 'js-sha512';
 
 const url = 'http://localhost:3000/login';
 @Component({
@@ -21,11 +22,11 @@ export class LoginComponent {
             'email': '',
             'password': ''
         };
-        this.request = new HttpRequest( 'GET', url, )
+        request = new HttpRequest( 'GET', url, )
     }
 
     public login() {
-        if (this.input.email && this.input.password) {
+        if (this.input.email && sha.sha512(this.input.password)) {
             const headers = new Headers({ 'content-type': 'application/json' });
 
             this.http.send(this.request)

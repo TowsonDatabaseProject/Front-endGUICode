@@ -6,12 +6,15 @@ export default class LicensorLibrary extends Library {
 
     constructor(name: String, userID: String) {
         super(name, userID);
-        this.maker = connection.query('SELECT maker FROM Licensor WHERE name = \'' + name + '\'', (err) => {
-            if (err) {
-                throw err;
-            }
-            console.log('We got the maker');
-        });
+        async function pullMaker() {
+            this.maker = await connection.query('SELECT maker FROM Licensor WHERE name = \'' + name + '\'', (err) => {
+                if (err) {
+                    throw err;
+                }
+                console.log('We got the maker');
+            });
+        }
+        pullMaker();
     }
 
     public getMaker(): String {

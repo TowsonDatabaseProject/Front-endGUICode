@@ -12,19 +12,8 @@ export default class Library {
         this.ownerID = ownedID;
     }
 
-<<<<<<< HEAD
-    public getGameList(): String[] {
-        this.libID = connection.query('SELECT LibName FROM Library WHERE OwnerID = \'' + this.ownerID + '\'', (err) => {
-            if (err) {
-                throw err;
-            }
-            console.log('Got the libID');
-        });
-        this.gameList.fill(connection.query('SELECT Title FROM Game WHERE OwnedBy = \'' + this.libID + '\'' , (err) => {
-=======
     public async getGameList() {
         this.gameList.fill(await connection.query('SELECT ', (err) => {
->>>>>>> bfd778cadf5afe27ec4b645a8c841f5a293d86c0
             if (err) {
                 throw err;
             }
@@ -33,8 +22,8 @@ export default class Library {
         return this.gameList;
     }
 
-    public getSystemsList(licName: String): String[] {
-        return Array().fill(connection.query('SELECT SysName FROM Systems WHERE SysID = \'' + this.libID
+    public async getSystemsList(licName: String) {
+        return Array().fill( await connection.query('SELECT SysName FROM Systems WHERE SysID = \'' + this.libID
             + '\'\nUNION\nSELECT SysName FROM Systems WHERE OwnedBy = \'' + licName + '\'', (err) => {
                 if (err) {
                     throw err;
@@ -49,5 +38,9 @@ export default class Library {
 
     public getName(): String {
         return this.name;
+    }
+
+    public getOwner(): String {
+        return this.ownerID;
     }
 }

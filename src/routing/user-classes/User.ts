@@ -24,22 +24,13 @@ export default class User {
         }
     }
 
-<<<<<<< HEAD
-    public validateUser(currentName: String, currentPassword: String): boolean {
-        connection.query('SELECT Password FROM User WHERE Username = \'' + currentName + '\'', (err, result) => {
-=======
     public async validateUser(currentName: String, currentPassword: String) {
         await connection.query('SELECT Password FROM User WHERE Username = ' + currentName, async (err, result) => {
->>>>>>> bfd778cadf5afe27ec4b645a8c841f5a293d86c0
             if (err) {
                 throw err;
             } else if (result === currentPassword) {
                 this.username = currentName;
-<<<<<<< HEAD
-                this.id = connection.query('SELECT UserID FROM User WHERE Username = \'' + currentName + '\'', (error) => {
-=======
                 this.id = await connection.query('SELECT UserID FROM User WHERE Username = ' + currentName, (error) => {
->>>>>>> bfd778cadf5afe27ec4b645a8c841f5a293d86c0
                     if (error) {
                         throw error;
                     }
@@ -53,11 +44,7 @@ export default class User {
         return !isNull(this.id);
     }
 
-<<<<<<< HEAD
-    public signUpUser(newUsername: String, newPassword: String, firstName: String, lastName: String, newID: String) {
-=======
-    public async signUpUser(newUsername: String, newPassword: String, firstName: String, lastName: String) {
->>>>>>> bfd778cadf5afe27ec4b645a8c841f5a293d86c0
+    public async signUpUser(newUsername: String, newPassword: String, firstName: String, lastName: String, id: String) {
         this.username = newUsername;
         // tslint:disable-next-line:prefer-const
         let userArray: String[];
@@ -69,13 +56,8 @@ export default class User {
         }, 0, -1));
         userArray.forEach( async (value) => {
             if (!(this.username === value)) {
-<<<<<<< HEAD
-                connection.query('INSERT INTO User (Username, Password, Fname, Lname, UserID) VALUES (\''
-                + this.username + '\', \'' + newPassword + '\', \'' + firstName + '\', \'' + lastName + '\', \'' + newID + '\'');
-=======
                 await connection.query('INSERT INTO User (Username, Password, Fname, Lname, UserID) VALUES ('
-                + this.username + ', ' + newPassword + ', ' + firstName + ', ' + lastName + ', 0602232');
->>>>>>> bfd778cadf5afe27ec4b645a8c841f5a293d86c0
+                + this.username + ', ' + newPassword + ', ' + firstName + ', ' + lastName + ', ' + id);
             } else {
                 console.log('Username already exists.');
                 return 'Username already exists, try again';

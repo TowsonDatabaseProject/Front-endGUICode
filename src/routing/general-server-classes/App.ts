@@ -8,6 +8,7 @@ import Thread from './../social-classes/forum-classes/ForumThread';
 import Forum from './../social-classes/forum-classes/Forum';
 import Library from '../library-classes/Library';
 import { nextContext } from '@angular/core/src/render3';
+import * as sha from 'js-sha512';
 
 /**
  * This class sets up or REST API client. We mount all of the roots in this class so that we can eventually
@@ -41,12 +42,13 @@ class App {
         // Sign up new user
         router.get('/sign-up', (req, res) => {
             this.id++;
-            this.user.signUpUser(req.param.userName, req.param.password, req.param.firstName, req.param.lastName, '0' + this.id);
+            this.user.signUpUser(req.params.userName, req.params.password, req.params.firstName, req.params.lastName,
+                sha.sha512('0' + this.id));
         });
         // Defines userID parameter for request
         router.param('userID', (req, res, next, userID) => {
-            if (this.user.validateUser(req.param.userName, req.param.password)) {
-                userID = async() => {
+            if (this.user.validateUser(req.params.userName, req.params.password)) {
+                req.params.userID = async() => {
                     await this.user.getID();
                 };
             }
@@ -57,7 +59,7 @@ class App {
         });
         // Get the userID to take user to next webpage
         router.get('/:userID', (req, res, next) => {
-            res.send(req.param.userID);
+            res.send(req.params.userID);
             next();
         });
 
