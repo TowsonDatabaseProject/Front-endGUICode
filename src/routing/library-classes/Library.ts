@@ -7,7 +7,7 @@ export default class Library {
     protected libID: String;
     protected ownerID: String;
 
-    constructor(name: String, ownedID: String) {
+    constructor(name: String, ownedID) {
         this.name = name;
         this.ownerID = ownedID;
     }
@@ -22,7 +22,7 @@ export default class Library {
 
     public async getSystemsList(licName: String) {
         return Array().fill( await connection.query('SELECT SysName FROM Systems WHERE SysID = \'' + this.libID
-            + '\'\nUNION\nSELECT SysName FROM Systems WHERE OwnedBy = \'' + licName + '\'', (err) => {
+            + '\'\nUNION\nSELECT SysName FROM Systems WHERE OwnedBy = \'' + licName + '\';', (err) => {
                 if (err) {
                     throw err;
                 }

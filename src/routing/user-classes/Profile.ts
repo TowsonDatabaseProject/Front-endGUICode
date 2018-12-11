@@ -14,13 +14,13 @@ class Profile {
     }
 
     public async getProfileInfo() {
-        this.firstName = await connection.query('SELECT Fname FROM User WHERE UserID = ' + this.id, (err) => {
+        this.firstName = await connection.query('SELECT Fname FROM User WHERE UserID = \'' + this.id + '\';', (err) => {
             if (err) {
                 throw err;
             }
             console.log('got firstName');
         });
-        this.lastName = await connection.query('SELECT Lname FROM User WHERE UserID = ' + this.id, (err) => {
+        this.lastName = await connection.query('SELECT Lname FROM User WHERE UserID = \'' + this.id + '\';', (err) => {
             if (err) {
                 throw err;
             }
@@ -33,7 +33,7 @@ class Profile {
     }
 
     public async getLibraryName() {
-        this.libraryName.fill(await connection.query('SELECT LibID FROM Library WHERE UserID = ' + this.id, (err) => {
+        this.libraryName.fill(await connection.query('SELECT LibID FROM Library WHERE UserID = \'' + this.id + '\';', (err) => {
             if (err) {
                 throw err;
             }

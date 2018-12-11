@@ -13,37 +13,37 @@ export default class Game {
     constructor(libID: String) {
         this.ownedBy = libID;
         async function pullMyInfo() {
-            this.title = await connection.query('SELECT Title FROM Game WHERE OwnedBy = \'' + libID + '\'', (err) => {
+            this.title = await connection.query('SELECT Title FROM Game WHERE OwnedBy = \'' + libID + '\';', (err) => {
                 if (err) {
                     throw err;
                 }
                 console.log('We got through it dude');
             });
-            this.developedBy = await connection.query('SELECT DevelopedBy FROM Game WHERE Title = \'' + this.title + '\'', (err) => {
+            this.developedBy = await connection.query('SELECT DevelopedBy FROM Game WHERE Title = \'' + this.title + '\';', (err) => {
                 if (err) {
                     throw err;
                 }
                 console.log('More to come from here Shaggy');
             });
-            this.licensedBy = await connection.query('SELECT LicensedBy FROM Game WHERE Title = \'' + this.title + '\'', (err) => {
+            this.licensedBy = await connection.query('SELECT LicensedBy FROM Game WHERE Title = \'' + this.title + '\';', (err) => {
                 if (err) {
                     throw err;
                 }
                 console.log('More bark Scoob');
             });
-            this.releasedFor = await connection.query('SELECT ReleasedFor FROM Game WHERE Title = \'' + this.title + '\'', (err) => {
+            this.releasedFor = await connection.query('SELECT ReleasedFor FROM Game WHERE Title = \'' + this.title + '\';', (err) => {
                 if (err) {
                     throw err;
                 }
                 console.log('More mayonnaise scoob');
             });
-            this.wishedForBy = await connection.query('SELECT WishedForBy FROM Game WHERE Title = \'' + this.title + '\'', (err) => {
+            this.wishedForBy = await connection.query('SELECT WishedForBy FROM Game WHERE Title = \'' + this.title + '\';', (err) => {
                 if (err) {
                     throw err;
                 }
                 console.log('More Tuna fish Scoob');
             });
-            this.publishedBy = await connection.query('SELECT PublishedBy FROM Game WHERE Title = \'' + this.title + '\'', (err) => {
+            this.publishedBy = await connection.query('SELECT PublishedBy FROM Game WHERE Title = \'' + this.title + '\';', (err) => {
                 if (err) {
                     throw err;
                 }

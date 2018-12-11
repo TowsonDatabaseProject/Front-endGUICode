@@ -9,6 +9,7 @@ import Forum from './../social-classes/forum-classes/Forum';
 import Library from '../library-classes/Library';
 import { nextContext } from '@angular/core/src/render3';
 import * as sha from 'js-sha512';
+import ConsoleLibrary from './../library-classes/ConsoleLibrary';
 
 /**
  * This class sets up or REST API client. We mount all of the roots in this class so that we can eventually
@@ -76,7 +77,7 @@ class App {
             res.json(this.userLibrary.getGameList());
         });
         router.get('/:console', (req, res) => {
-
+            res.send();
         });
         router.get('/:publisher', (req, res) => {
             // res.send(new PublisherLibrary())

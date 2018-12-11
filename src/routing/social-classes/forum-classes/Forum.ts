@@ -5,12 +5,12 @@ export default class Forum {
 
     constructor() {
         async function queryDatabase() {
-            this.threads.fill(await connection.query('SELECT Topics FROM DebateBoard', (err) => {
+            this.threads = await connection.query('SELECT Topics FROM DebateBoard;', (err) => {
                 if (err) {
                     throw err;
                 }
                 console.log('Got topics.');
-        }), 0, -1);
+        });
         }
         queryDatabase();
     }

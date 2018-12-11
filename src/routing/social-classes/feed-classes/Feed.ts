@@ -14,7 +14,7 @@ export default class Feed {
     }
 
     private async getId(userId: number) {
-        this.id = await connection.query('SELECT FeedID FROM Feed WHERE FeedID = \'' + userId + '\'', (err) => {
+        this.id = await connection.query('SELECT FeedID FROM Feed WHERE FeedID = \'' + userId + '\';', (err) => {
             if (err) {
                 return err;
             }
@@ -27,7 +27,7 @@ export default class Feed {
             this.getId(userId);
         }
         return this.companiesSubscribedTo.fill(await connection.query('SELECT CompaniesWatched FROM Feed '
-        + 'WHERE FeedID = \'' + this.id + '\'', (err) => {
+        + 'WHERE FeedID = \'' + this.id + '\';', (err) => {
             if (err) {
                 return err;
             }
@@ -38,7 +38,7 @@ export default class Feed {
     public setPosts() {
         this.companiesSubscribedTo.map(async (item: String, index: number, feedArray: String[]) => {
             feedArray[index] = await connection.query('SELECT FeedID FROM Feed WHERE UserID IN \(SELECT UserID FROM User WHERE UserID = \''
-            + item + '\'\)');
+            + item + '\'\);');
             this.posts[index] = new Post(feedArray[index]);
         });
     }

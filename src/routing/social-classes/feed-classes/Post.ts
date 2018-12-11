@@ -11,35 +11,35 @@ export default class Post {
     constructor (feedId: String) {
         this.feedId = feedId;
         async function setUpClass() {
-            this.ownerId = await connection.query('SELECT BelongsTo FROM Post WHERE FeedID = \'' + feedId + '\'', (err) => {
+            this.ownerId = await connection.query('SELECT BelongsTo FROM Post WHERE FeedID = \'' + feedId + '\';', (err) => {
                 if (err) {
                     throw err;
                 }
                 console.log('We did it scoob');
             });
-            this.ownerUsername = await connection.query('SELECT UserName FROM Post WHERE OwnerID = \'' + this.ownerId + '\'', (err) => {
+            this.ownerUsername = await connection.query('SELECT UserName FROM Post WHERE OwnerID = \'' + this.ownerId + '\';', (err) => {
                 if (err) {
                     throw err;
                 }
                 console.log('We too good scoob');
             });
-            this.message = await connection.query('SELECT Message FROM Post WHERE FeedID = \'' + feedId + '\'', (err) => {
+            this.message = await connection.query('SELECT Message FROM Post WHERE FeedID = \'' + feedId + '\';', (err) => {
                 if (err) {
                     throw err;
                 }
                 console.log('Here\'s the peanut butter scoob');
             });
-            this.timePosted = await connection.query('SELECT Time FROM Post WHERE FeedID = \'' + feedId + '\'', (err) => {
+            this.timePosted = await connection.query('SELECT Time FROM Post WHERE FeedID = \'' + feedId + '\';', (err) => {
                 if (err) {
                     throw err;
                 }
                 console.log('MOAR PEANUT BUTTER SCOOBY DOO');
             });
-            this.belongsTo = await connection.query('SELECT BelongsTo FROM Post WHERE FeedID = \'' + feedId + '\'', (err) => {
+            this.belongsTo = await connection.query('SELECT BelongsTo FROM Post WHERE FeedID = \'' + feedId + '\';', (err) => {
                 if (err) {
                     throw err;
                 }
-                console.log('Gorgonzola now scood');
+                console.log('Gorgonzola now scoob');
             });
         }
         setUpClass();

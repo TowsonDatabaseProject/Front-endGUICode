@@ -7,7 +7,7 @@ export default class LicensorLibrary extends Library {
     constructor(name: String, userID: String) {
         super(name, userID);
         async function pullMaker() {
-            this.maker = await connection.query('SELECT maker FROM Licensor WHERE name = \'' + name + '\'', (err) => {
+            this.maker = await connection.query('SELECT maker FROM Licensor WHERE name = \'' + name + '\';', (err) => {
                 if (err) {
                     throw err;
                 }

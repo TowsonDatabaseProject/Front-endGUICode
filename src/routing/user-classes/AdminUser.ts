@@ -11,7 +11,7 @@ export default class AdminUser extends User {
     }
 
     public async getLevelOfAccess() {
-        this.levelOfAccess = await connection.query('SELECT LevelOfAccess FROM Admin WHERE AdminID = ' + super.getID, (err) => {
+        this.levelOfAccess = await connection.query('SELECT LevelOfAccess FROM Admin WHERE AdminID = \'' + super.getID + '\';', (err) => {
         if (err) {
             throw err;
         }

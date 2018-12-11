@@ -5,18 +5,21 @@ export default class SystemLibrary extends Library {
     private specifications: String;
     private licensor: String;
 
-    constructor(library: Library) {
-        super(library.getName(), library.getOwner());
+    constructor(name: String) {
+        async function getIDNumber() {
+            return await connection.query('SELECT SysID FROM Systems WHERE SysName = \'' + name + '\';');
+        }
+        super(name, getIDNumber());
     }
 
     public async queryInfo() {
-        this.specifications = await connection.query('SELECT Specs FROM Systems WHERE LibID = ' + super.getLibID, (err) => {
+        this.specifications = await connection.query('SELECT Specs FROM Systems WHERE SysName = \'' + super.getName() + '\';', (err) => {
             if (err) {
                 throw err;
             }
             console.log('Got specs.');
         });
-        this.licensor = await connection.query('SELECT Licensor FROM Systems WHERE LibID = ' + super.getLibID, (err) => {
+        this.licensor = await connection.query('SELECT OwnedBy FROM Systems WHERE SysName = \'' + super.getName() + '\';', (err) => {
             if (err) {
                 throw err;
             }

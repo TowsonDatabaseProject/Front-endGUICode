@@ -4,7 +4,6 @@ import connection from './../general-server-classes/Database';
 import { isNull } from 'util';
 import admin from './AdminUser';
 import { _appIdRandomProviderFactory, APP_ID_RANDOM_PROVIDER } from '@angular/core/src/application_tokens';
-import { getRandomString } from 'selenium-webdriver/safari';
 
 export default class User {
 
@@ -25,12 +24,12 @@ export default class User {
     }
 
     public async validateUser(currentName: String, currentPassword: String) {
-        await connection.query('SELECT Password FROM User WHERE Username = ' + currentName, async (err, result) => {
+        await connection.query('SELECT Password FROM User WHERE Username = \'' + currentName + '\';', async (err, result) => {
             if (err) {
                 throw err;
             } else if (result === currentPassword) {
                 this.username = currentName;
-                this.id = await connection.query('SELECT UserID FROM User WHERE Username = ' + currentName, (error) => {
+                this.id = await connection.query('SELECT UserID FROM User WHERE Username = \'' + currentName + '\';', (error) => {
                     if (error) {
                         throw error;
                     }
@@ -48,7 +47,7 @@ export default class User {
         this.username = newUsername;
         // tslint:disable-next-line:prefer-const
         let userArray: String[];
-        userArray.fill(await connection.query('SELECT Username FROM User', (err) => {
+        userArray.fill(await connection.query('SELECT Username FROM User;', (err) => {
             if (err) {
                 throw err;
             }
@@ -56,8 +55,8 @@ export default class User {
         }, 0, -1));
         userArray.forEach( async (value) => {
             if (!(this.username === value)) {
-                await connection.query('INSERT INTO User (Username, Password, Fname, Lname, UserID) VALUES ('
-                + this.username + ', ' + newPassword + ', ' + firstName + ', ' + lastName + ', ' + id);
+                await connection.query('INSERT INTO User (Username, Password, Fname, Lname, UserID) VALUES \('
+                + this.username + ', ' + newPassword + ', ' + firstName + ', ' + lastName + ', ' + id + '\'\);');
             } else {
                 console.log('Username already exists.');
                 return 'Username already exists, try again';
@@ -72,7 +71,7 @@ export default class User {
     }
 
     private async setAdmin() {
-        const adminArray: String[] = await connection.query('SELECT AdminID FROM Admin', (err) => {
+        const adminArray: String[] = await connection.query('SELECT AdminID FROM Admin;', (err) => {
             if (err) {
                 throw err;
             }

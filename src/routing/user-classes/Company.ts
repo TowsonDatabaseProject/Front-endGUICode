@@ -1,7 +1,7 @@
-
+import connection from './../general-server-classes/Database';
 
 export default class Company {
-    private name;
-    private id;
+    private name: String;
+    private id: String;
 
 }
