@@ -1,7 +1,6 @@
 import connection from './../../general-server-classes/Database';
 
 export default class Post {
-    private static postArray: Array<Post>;
     private ownerId: String;
     private ownerUsername: String;
     private message: String;
@@ -24,16 +23,29 @@ export default class Post {
                 }
                 console.log('We too good scoob');
             });
-            this.message = await connection.query('SELECT Message FROM Post WHERE ', (err) => {
+            this.message = await connection.query('SELECT Message FROM Post WHERE FeedID = \'' + feedId + '\'', (err) => {
                 if (err) {
                     throw err;
                 }
                 console.log('Here\'s the peanut butter scoob');
             });
+            this.timePosted = await connection.query('SELECT Time FROM Post WHERE FeedID = \'' + feedId + '\'', (err) => {
+                if (err) {
+                    throw err;
+                }
+                console.log('MOAR PEANUT BUTTER SCOOBY DOO');
+            });
+            this.belongsTo = await connection.query('SELECT BelongsTo FROM Post WHERE FeedID = \'' + feedId + '\'', (err) => {
+                if (err) {
+                    throw err;
+                }
+                console.log('Gorgonzola now scood');
+            });
         }
+        setUpClass();
     }
 
-    public static async getPosts(feedID: String) {
-        return this.postArray;
+    public getPosts() {
+        return this;
     }
 }

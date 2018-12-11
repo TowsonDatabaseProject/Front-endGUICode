@@ -35,7 +35,15 @@ export default class Feed {
         }));
     }
 
-    public async setPosts() {
-        // this.posts.fill(Post.getPosts(this.id));
+    public setPosts() {
+        this.companiesSubscribedTo.map(async (item: String, index: number, feedArray: String[]) => {
+            feedArray[index] = await connection.query('SELECT FeedID FROM Feed WHERE UserID IN \(SELECT UserID FROM User WHERE UserID = \''
+            + item + '\'\)');
+            this.posts[index] = new Post(feedArray[index]);
+        });
+    }
+
+    public getPosts() {
+        return this.posts;
     }
 }

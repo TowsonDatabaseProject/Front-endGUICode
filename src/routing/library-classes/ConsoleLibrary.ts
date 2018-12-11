@@ -1,8 +1,10 @@
 import Library from './Library';
 import connection from './../general-server-classes/Database';
+import Game from './Game';
 
 export default class ConsoleLibrary extends Library {
     private maker: String;
+    private gamse: Game[];
 
     constructor(library: Library) {
         super(library.getName(), library.getOwner());

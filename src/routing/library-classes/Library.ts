@@ -1,25 +1,23 @@
 import connection from '../general-server-classes/Database';
+import Game from './Game';
 
 export default class Library {
     protected name: String;
-    protected gameList: String[];
+    protected gameList: Game[];
     protected libID: String;
     protected ownerID: String;
 
     constructor(name: String, ownedID: String) {
         this.name = name;
-        this.gameList = Array();
         this.ownerID = ownedID;
     }
 
-    public async getGameList() {
-        this.gameList.fill(await connection.query('SELECT ', (err) => {
-            if (err) {
-                throw err;
-            }
-            console.log('we got the list');
-        }), 0, -1);
+    public getGameList() {
         return this.gameList;
+    }
+
+    public initializeGamesList() {
+
     }
 
     public async getSystemsList(licName: String) {
