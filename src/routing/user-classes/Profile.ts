@@ -1,6 +1,6 @@
 import connection from './../general-server-classes/Database';
 
-class Profile {
+export default class Profile {
     private firstName: String;
     private lastName: String;
     private libraryName: String[];
@@ -32,13 +32,13 @@ class Profile {
         return name;
     }
 
-    public async getLibraryName() {
-        this.libraryName.fill(await connection.query('SELECT LibID FROM Library WHERE UserID = \'' + this.id + '\';', (err) => {
+    public async getLibraryNames() {
+        this.libraryName = await connection.query('SELECT LibID FROM Library WHERE UserID = \'' + this.id + '\';', (err) => {
             if (err) {
                 throw err;
             }
             console.log('got libraryName');
-        }), 0, -1);
+        });
         return this.libraryName;
     }
 
@@ -46,5 +46,3 @@ class Profile {
         this.id = id;
     }
 }
-
-export default new Profile();

@@ -12,22 +12,14 @@ export default class Library {
         this.ownerID = ownedID;
     }
 
-    public getGameList() {
-        return this.gameList;
-    }
-
-    public initializeGamesList() {
-
-    }
-
     public async getSystemsList(licName: String) {
-        return Array().fill( await connection.query('SELECT SysName FROM Systems WHERE SysID = \'' + this.libID
+        return await connection.query('SELECT SysName FROM Systems WHERE SysID = \'' + this.libID
             + '\'\nUNION\nSELECT SysName FROM Systems WHERE OwnedBy = \'' + licName + '\';', (err) => {
                 if (err) {
                     throw err;
                 }
                 console.log('We got the systems and their licensor');
-            }), 0 , -1);
+            });
     }
 
     public getLibID(): String {
@@ -40,5 +32,14 @@ export default class Library {
 
     public getOwner(): String {
         return this.ownerID;
+    }
+
+    public async getGameList() {
+        return await connection.query('SELECT Title FROM Game WHERE ReleasedFor = \'' + this.getName() + '\';', (err) => {
+            if (err) {
+                throw err;
+            }
+            console.log('More Bananananananas scoob');
+        });
     }
 }

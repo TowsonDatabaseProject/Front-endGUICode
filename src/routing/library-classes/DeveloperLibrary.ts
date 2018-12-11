@@ -5,8 +5,18 @@ export default class DeveloperLibrary extends Library {
     private companyName: String;
     private yearFounded: number;
 
-    constructor(library: Library) {
-        super(library.getName(), library.getOwner());
+    constructor(name: String) {
+        async function getID() {
+            return await connection.query('SELECT DevID FROM Developer WHERE DevName = \'' + name + '\';', (err) => {
+                if (err) {
+                    throw err;
+                }
+                console.log('Scoob how many more foods are there');
+            }
+            );
+        }
+        super(name, getID());
+        this.fillInfo();
     }
 
     public async fillInfo() {

@@ -10,6 +10,7 @@ export default class SystemLibrary extends Library {
             return await connection.query('SELECT SysID FROM Systems WHERE SysName = \'' + name + '\';');
         }
         super(name, getIDNumber());
+        this.queryInfo();
     }
 
     public async queryInfo() {

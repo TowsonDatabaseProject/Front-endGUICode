@@ -7,9 +7,9 @@ import AdminUser from '../user-classes/AdminUser';
 import Thread from './../social-classes/forum-classes/ForumThread';
 import Forum from './../social-classes/forum-classes/Forum';
 import Library from '../library-classes/Library';
-import { nextContext } from '@angular/core/src/render3';
 import * as sha from 'js-sha512';
-import ConsoleLibrary from './../library-classes/ConsoleLibrary';
+import SystemLibrary from './../library-classes/SystemLibrary';
+import DeveloperLibrary from './../library-classes/DeveloperLibrary';
 
 /**
  * This class sets up or REST API client. We mount all of the roots in this class so that we can eventually
@@ -22,12 +22,17 @@ class App {
     private forum: Forum;
     private id: number;
     private userLibrary: Library;
+    private profile: Profile;
+    private systemLibrary: SystemLibrary;
+    private developerLibrary: DeveloperLibrary;
+    private publisherLibrary: PublisherLibrary;
 
     constructor() {
         this.express = express();
         this.user = new User(null);
         this.forum = new Forum();
         this.id = 0;
+        this.profile = new Profile();
         this.mountRoutes();
     }
 
@@ -69,21 +74,24 @@ class App {
         });
 
         router.get('/:userID/profile', (req, res) => {
-            Profile.setID(this.user.getID());
-            res.send(Profile);
+            this.profile.setID(this.user.getID());
+            res.send(this.profile);
         });
-        router.get('/:userID/library', (req, res) => {
-            this.userLibrary = new Library('MyGameLibrary', this.user.getID());
-            res.json(this.userLibrary.getGameList());
+        router.get('/:userID/:library', (req, res) => {
+            this.userLibrary = new Library(req.params.library, this.user.getID());
+            res.send(this.userLibrary.getGameList());
         });
-        router.get('/:console', (req, res) => {
-            res.send();
+        router.get('/:systemName', (req, res) => {
+            this.systemLibrary = new SystemLibrary(req.params.systemName);
+            res.send(this.systemLibrary);
         });
         router.get('/:publisher', (req, res) => {
-            // res.send(new PublisherLibrary())
+            this.publisherLibrary = new PublisherLibrary(req.params.publisher);
+            res.send(this.publisherLibrary);
         });
         router.get('/:developer', (req, res) => {
-
+            this.developerLibrary = new DeveloperLibrary(req.params.developer);
+            res.send(this.developerLibrary);
         });
         router.get('/forum', (req, res) => {
             this.thread = new Thread();
