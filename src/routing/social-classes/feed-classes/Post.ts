@@ -11,7 +11,7 @@ export default class Post {
     constructor (feedId: String) {
         this.feedId = feedId;
         async function setUpClass() {
-            this.ownerId = await connection.query('SELECT BelongsTo FROM Post WHERE FeedID = \'' + feedId + '\';', (err) => {
+            this.ownerId = await connection.query('SELECT BelongsTo FROM Post WHERE UserID = \'' + feedId + '\';', (err) => {
                 if (err) {
                     throw err;
                 }
