@@ -42,4 +42,8 @@ export default class Library {
             console.log('More Bananananananas scoob');
         });
     }
+
+    public async addGame(gameObject) {
+
+    }
 }

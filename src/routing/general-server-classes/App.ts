@@ -10,6 +10,7 @@ import Library from '../library-classes/Library';
 import * as sha from 'js-sha512';
 import SystemLibrary from './../library-classes/SystemLibrary';
 import DeveloperLibrary from './../library-classes/DeveloperLibrary';
+import Game from './../library-classes/Game';
 
 /**
  * This class sets up or REST API client. We mount all of the roots in this class so that we can eventually
@@ -46,14 +47,14 @@ class App {
             });
         });
         // Sign up new user
-        router.get('/sign-up', (req, res) => {
+        router.put('/sign-up', (req, res) => {
             this.id++;
             this.user.signUpUser(req.params.userName, req.params.password, req.params.firstName, req.params.lastName,
                 sha.sha512('0' + this.id));
         });
         // Defines userID parameter for request
         router.param('userID', (req, res, next, userID) => {
-            if (this.user.validateUser(req.params.userName, req.params.password)) {
+            if (this.user.validateUser(req.body['Username'], req.body['password'])) {
                 req.params.userID = async() => {
                     await this.user.getID();
                 };
@@ -64,25 +65,43 @@ class App {
             next();
         });
         // Get the userID to take user to next webpage
-        router.get('/:userID', (req, res, next) => {
+        router.get('user/:userID', (req, res, next) => {
             res.send(req.params.userID);
             next();
         });
 
-        router.get('/:userID/main_page', (req, res) => {
+        router.get('user/:userID/main_page', (req, res) => {
 
         });
 
-        router.get('/:userID/profile', (req, res) => {
+        router.get('user/:userID/profile', (req, res) => {
             this.profile.setID(this.user.getID());
             res.send(this.profile);
         });
-        router.get('/:userID/:library', (req, res) => {
+        router.put('user/:userID/profile/:newLibrary', (req, res) => {
+
+        });
+        router.get('user/:userID/profile/:library', (req, res) => {
             this.userLibrary = new Library(req.params.library, this.user.getID());
             res.send(this.userLibrary.getGameList());
         });
+        router.put('/:user/newGame', (req, res) => {
+            const game = JSON.parse(req.body);
+            const newGame: Game = new Game(null);
+            newGame.setTitle(game.title);
+            newGame.setDeveloper(game.developer);
+            newGame.setLibrary(game.library);
+            newGame.setPublisher(game.publisher);
+            newGame.setLicensor(game.licensor);
+            newGame.setSystem(game.system);
+            if (!(game.wish === undefined)) {
+                newGame.setWishedFor(game.wish);
+            }
+            newGame.addEntry();
+            res.send('Successfully added game entry!');
+        });
         router.get('/:systemName', (req, res) => {
-            this.systemLibrary = new SystemLibrary(req.params.systemName);
+            this.systemLibrary = new SystemLibrary(req.body['System Name']);
             res.send(this.systemLibrary);
         });
         router.get('/:publisher', (req, res) => {

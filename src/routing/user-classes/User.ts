@@ -55,7 +55,7 @@ export default class User {
         }, 0, -1));
         userArray.forEach( async (value) => {
             if (!(this.username === value)) {
-                await connection.query('INSERT INTO User (Username, Password, Fname, Lname, UserID) VALUES \('
+                await connection.query('INSERT INTO User (Username, Password, Fname, Lname, UserID) VALUES \(\''
                 + this.username + ', ' + newPassword + ', ' + firstName + ', ' + lastName + ', ' + id + '\'\);');
             } else {
                 console.log('Username already exists.');

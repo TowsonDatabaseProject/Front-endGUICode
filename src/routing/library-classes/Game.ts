@@ -5,12 +5,21 @@ export default class Game {
     private title: String;
     private developedBy: String;
     private licensedBy: String;
-    private releasedFor: String[];
+    private releasedFor: String;
     private ownedBy: String;
     private wishedForBy: String;
     private publishedBy: String;
 
     constructor(libID: String) {
+        if (libID === null) {
+            this.title = '';
+            this.developedBy = '';
+            this.licensedBy = '';
+            this.releasedFor = '';
+            this.ownedBy = '';
+            this.wishedForBy = null;
+            this.publishedBy = '';
+        }
         this.ownedBy = libID;
         async function pullMyInfo() {
             this.title = await connection.query('SELECT Title FROM Game WHERE OwnedBy = \'' + libID + '\';', (err) => {
@@ -79,5 +88,44 @@ export default class Game {
 
     public getWishedFor() {
         return this.wishedForBy;
+    }
+
+    public setTitle(title: String) {
+        this.title = title;
+    }
+
+    public setLibrary(ownedBy: String) {
+        this.ownedBy = ownedBy;
+    }
+
+    public setWishedFor(wishedForBy: String) {
+        this.wishedForBy = wishedForBy;
+    }
+
+    public setPublisher(publisher: String) {
+        this.publishedBy = publisher;
+    }
+
+    public setDeveloper(developer: String) {
+        this.developedBy = developer;
+    }
+
+    public setLicensor(licensor: String) {
+        this.licensedBy = licensor;
+    }
+
+    public setSystem(system: String) {
+        this.releasedFor = system;
+    }
+
+    public addEntry() {
+        connection.query('INSERT INTO Game \(Title, DevelopedBy, PublishedBy, LicensedBy, OwnedBy, ReleasedFor, WishedForBy\) '
+         + 'VALUES \(\'' + this.title + '\', \'' + this.developedBy + '\', \'' + this.publishedBy + '\', \'' + this.licensedBy +
+         '\', \'' + this.ownedBy + '\', \'' + this.releasedFor + '\', \'' + this.wishedForBy + '\'\);', (err) => {
+             if (err) {
+                 throw err;
+             }
+             console.log('Successfully added new game into database.');
+         });
     }
 }
