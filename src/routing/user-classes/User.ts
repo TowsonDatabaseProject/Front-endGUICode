@@ -47,12 +47,12 @@ export default class User {
         this.username = newUsername;
         // tslint:disable-next-line:prefer-const
         let userArray: String[];
-        userArray.fill(await connection.query('SELECT Username FROM User;', (err) => {
+        userArray = await connection.query('SELECT Username FROM User;', (err) => {
             if (err) {
                 throw err;
             }
             console.log('Got the usernames.');
-        }, 0, -1));
+        }, 0, -1);
         userArray.forEach( async (value) => {
             if (!(this.username === value)) {
                 await connection.query('INSERT INTO User (Username, Password, Fname, Lname, UserID) VALUES \(\''
