@@ -1,4 +1,5 @@
 import connection from './../../general-server-classes/Database';
+import User from './../../user-classes/User';
 
 export default class Post {
     private ownerId: String;
@@ -7,7 +8,9 @@ export default class Post {
     private timePosted;
     private belongsTo: String;
     private feedId: String;
+    private id: String;
 
+    // feedId is not actually the id for the feed, but the group_id
     constructor (feedId: String) {
         this.feedId = feedId;
         async function setUpClass() {
@@ -47,5 +50,13 @@ export default class Post {
 
     public getPosts() {
         return this;
+    }
+
+    public async makePost(message: String, user: User) {
+        this.message = message;
+        this.ownerId = user.getID();
+        await connection.query('INSERT INTO Posts \(MessageID, BelongsTo, Message, FeedID, TimeOfPost, UserName\)'
+        + ' VALUES \( \'' + this.id + '\', \'' + this.ownerId + '\', \'' + message + '\', \'' + this.ownerId + '\', \'' + this.timePosted
+        + '\', \'' + user.getUsername() + '\'\);');
     }
 }

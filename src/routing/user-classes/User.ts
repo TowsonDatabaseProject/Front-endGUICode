@@ -87,4 +87,8 @@ export default class User {
     public isAdmin(): boolean {
         return this.adminStatus;
     }
+
+    public getUsername(): String {
+        return this.username;
+    }
 }

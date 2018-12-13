@@ -55,9 +55,7 @@ class App {
         // Defines userID parameter for request
         router.param('userID', (req, res, next, userID) => {
             if (this.user.validateUser(req.body['Username'], req.body['password'])) {
-                req.params.userID = async() => {
-                    await this.user.getID();
-                };
+                req.params.userID = this.user.getID();
             }
             if (this.user.isAdmin()) {
                 this.user = new AdminUser(this.user);
@@ -82,7 +80,7 @@ class App {
 
         });
         router.get('user/:userID/profile/:library', (req, res) => {
-            this.userLibrary = new Library(req.params.library, this.user.getID());
+            this.userLibrary = new Library(req.body['name'], this.user.getID());
             res.send(this.userLibrary.getGameList());
         });
         router.put('/:user/newGame', (req, res) => {

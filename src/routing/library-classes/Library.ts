@@ -35,7 +35,7 @@ export default class Library {
     }
 
     public async getGameList() {
-        return await connection.query('SELECT Title FROM Game WHERE ReleasedFor = \'' + this.getName() + '\';', (err) => {
+        return await connection.query('SELECT Title FROM Game WHERE OwnedBy = \'' + this.libID + '\';', (err) => {
             if (err) {
                 throw err;
             }
@@ -43,7 +43,15 @@ export default class Library {
         });
     }
 
-    public async addGame(gameObject) {
-
+    public async addGame(gameObject: Game) {
+        await connection.query('INSERT INTO Game (Title, OwnedBy, ReleasedFor, LicensedBy, DevelopedBy, PublishedBy)'
+        + ' VALUES (\'' + gameObject.getTitle() + '\', \'' + this.libID + '\', \'' + gameObject.getSystems()
+        + '\', \'' + gameObject.getLicensor() + '\', \'' + gameObject.getDeveloper() + '\', \'' + gameObject.getPublisher() + '\');',
+        (err) => {
+            if (err) {
+                throw err;
+            }
+            console.log('Added game to database, linked to this library');
+        });
     }
 }
