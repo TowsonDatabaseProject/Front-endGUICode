@@ -54,4 +54,14 @@ export default class Library {
             console.log('Added game to database, linked to this library');
         });
     }
+
+    public async createNewLibrary(name: String, id: String, owner: String) {
+        await connection.query('INSERT INTO Library (LibID, LibName, OwnerID) VALUES (\''
+        + id + '\', \'' + name + '\', \'' + owner + '\');', (err) => {
+            if (err) {
+                throw err;
+            }
+            console.log('Registered new Library');
+        });
+    }
 }

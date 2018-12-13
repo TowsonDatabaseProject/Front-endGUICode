@@ -1,6 +1,5 @@
 import * as express from 'express';
 import User from './../user-classes/User';
-import userProfile from './../user-classes/Profile';
 import Profile from './../user-classes/Profile';
 import PublisherLibrary from '../library-classes/PublisherLibrary';
 import AdminUser from '../user-classes/AdminUser';
