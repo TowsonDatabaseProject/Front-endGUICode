@@ -3,7 +3,11 @@ import { HttpInterceptor, HttpRequest, HttpHandler } from '@angular/common/http'
 import { Router } from '@angular/router';
 // tslint:disable-next-line:import-blacklist
 import 'rxjs/Rx';
+import { post, HttpClient } from 'selenium-webdriver/http';
+import { get } from 'https';
+import * as sha from 'js-sha512';
 
+const url = 'http://localhost:3000/login';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -13,18 +17,19 @@ export class LoginComponent {
 
     public input: any;
 
-    constructor(private httpHandler: HttpHandler, private router: Router, private request: HttpRequest<JSON>) {
+    constructor(private httpHandler: HttpHandler, private router: Router, private request: Request, private http: HttpClient) {
         this.input = {
             'email': '',
             'password': ''
         };
+        request = new HttpRequest( 'GET', url, )
     }
 
     public login() {
-        if (this.input.email && this.input.password) {
+        if (this.input.email && sha.sha512(this.input.password)) {
             const headers = new Headers({ 'content-type': 'application/json' });
 
-            this.httpHandler.post('http://localhost:3000/login', JSON.stringify(this.input), Option)
+            this.http.send(this.request)
                 .map(result => result.json())
                 .subscribe(result => {
                     this.router.navigate(['/blogs'], { 'queryParams': result });

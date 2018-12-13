@@ -3,7 +3,7 @@ import profile from './Profile';
 import connection from './../general-server-classes/Database';
 import { isNull } from 'util';
 import admin from './AdminUser';
-import { _appIdRandomProviderFactory } from '@angular/core/src/application_tokens';
+import { _appIdRandomProviderFactory, APP_ID_RANDOM_PROVIDER } from '@angular/core/src/application_tokens';
 
 export default class User {
 
@@ -23,15 +23,15 @@ export default class User {
         }
     }
 
-    public validateUser(currentName: String, currentPassword: String): boolean {
-        connection.query('SELECT Password FROM User WHERE Username = ' + currentName, (err, result) => {
+    public async validateUser(currentName: String, currentPassword: String) {
+        await connection.query('SELECT Password FROM User WHERE Username = \'' + currentName + '\';', async (err, result) => {
             if (err) {
                 throw err;
             } else if (result === currentPassword) {
                 this.username = currentName;
-                this.id = connection.query('SELECT UserID FROM User WHERE Username = ' + currentName, (error) => {
+                this.id = await connection.query('SELECT UserID FROM User WHERE Username = \'' + currentName + '\';', (error) => {
                     if (error) {
-                        throw err;
+                        throw error;
                     }
                     // if we did not get an error, then we check if they are an admin or not.
                     this.setAdmin();
@@ -43,20 +43,20 @@ export default class User {
         return !isNull(this.id);
     }
 
-    public signUpUser(newUsername: String, newPassword: String, firstName: String, lastName: String) {
+    public async signUpUser(newUsername: String, newPassword: String, firstName: String, lastName: String, id: String) {
         this.username = newUsername;
         // tslint:disable-next-line:prefer-const
         let userArray: String[];
-        userArray.fill(connection.query('SELECT Username FROM User', (err) => {
+        userArray = await connection.query('SELECT Username FROM User;', (err) => {
             if (err) {
                 throw err;
             }
             console.log('Got the usernames.');
-        }, 0, -1));
-        userArray.forEach((value) => {
+        }, 0, -1);
+        userArray.forEach( async (value) => {
             if (!(this.username === value)) {
-                connection.query('INSERT INTO User (Username, Password, Fname, Lname, UserID) VALUES ('
-                + this.username + ', ' + newPassword + ', ' + firstName + ', ' + lastName + ', 0602232');
+                await connection.query('INSERT INTO User (Username, Password, Fname, Lname, UserID) VALUES \(\''
+                + this.username + ', ' + newPassword + ', ' + firstName + ', ' + lastName + ', ' + id + '\'\);');
             } else {
                 console.log('Username already exists.');
                 return 'Username already exists, try again';
@@ -70,8 +70,8 @@ export default class User {
         return this.id;
     }
 
-    private setAdmin() {
-        const adminArray: String[] = connection.query('SELECT AdminID FROM Admin', (err) => {
+    private async setAdmin() {
+        const adminArray: String[] = await connection.query('SELECT AdminID FROM Admin;', (err) => {
             if (err) {
                 throw err;
             }
@@ -86,5 +86,9 @@ export default class User {
 
     public isAdmin(): boolean {
         return this.adminStatus;
+    }
+
+    public getUsername(): String {
+        return this.username;
     }
 }

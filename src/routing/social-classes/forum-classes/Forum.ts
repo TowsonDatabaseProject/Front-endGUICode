@@ -4,12 +4,15 @@ export default class Forum {
     private threads: String[];
 
     constructor() {
-        this.threads.fill(connection.query('SELECT Topics FROM DebateBoard', (err) => {
-            if (err) {
-                throw err;
-            }
-            console.log('Got topics.');
-        }), 0, -1);
+        async function queryDatabase() {
+            this.threads = await connection.query('SELECT Topics FROM DebateBoard;', (err) => {
+                if (err) {
+                    throw err;
+                }
+                console.log('Got topics.');
+        });
+        }
+        queryDatabase();
     }
 
     public getTopics(): String[] {

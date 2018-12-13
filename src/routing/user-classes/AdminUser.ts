@@ -1,5 +1,6 @@
 import connection from './../general-server-classes/Database';
 import User from './User';
+import { async } from 'q';
 
 export default class AdminUser extends User {
     private levelOfAccess: number;
@@ -9,12 +10,12 @@ export default class AdminUser extends User {
         this.levelOfAccess = 0;
     }
 
-    public getLevelOfAccess() {
-        this.levelOfAccess = connection.query('SELECT LevelOfAccess FROM Admin WHERE AdminID = ' + super.getID, (err) => {
-            if (err) {
-                throw err;
-            }
-            console.log('Got level of access for admin');
+    public async getLevelOfAccess() {
+        this.levelOfAccess = await connection.query('SELECT LevelOfAccess FROM Admin WHERE AdminID = \'' + super.getID + '\';', (err) => {
+        if (err) {
+            throw err;
+        }
+        console.log('Got level of access for admin');
         });
         return this.levelOfAccess;
     }

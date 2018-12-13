@@ -1,6 +1,6 @@
 
 import { Component } from '@angular/core';
-import { Http, HttpInterceptor, HttpRequest, HttpHandler} from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler} from '@angular/common/http';
 import { Router } from '@angular/router';
 // tslint:disable-next-line:import-blacklist
 import 'rxjs/Rx';
