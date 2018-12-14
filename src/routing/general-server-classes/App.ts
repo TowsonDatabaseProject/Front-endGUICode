@@ -10,6 +10,10 @@ import * as sha from 'js-sha512';
 import SystemLibrary from './../library-classes/SystemLibrary';
 import DeveloperLibrary from './../library-classes/DeveloperLibrary';
 import Game from './../library-classes/Game';
+import Feed from './../social-classes/feed-classes/Feed';
+import Post from './../social-classes/feed-classes/Post';
+import Like from './../social-classes/feed-classes/Like';
+import { isNull } from '@angular/compiler/src/output/output_ast';
 
 /**
  * This class sets up or REST API client. We mount all of the roots in this class so that we can eventually
@@ -26,6 +30,8 @@ class App {
     private systemLibrary: SystemLibrary;
     private developerLibrary: DeveloperLibrary;
     private publisherLibrary: PublisherLibrary;
+    private libId: Number;
+    private feed: Feed;
 
     constructor() {
         this.express = express();
@@ -33,6 +39,7 @@ class App {
         this.forum = new Forum();
         this.id = 0;
         this.profile = new Profile();
+        this.thread = new Thread();
         this.mountRoutes();
     }
 
@@ -76,7 +83,29 @@ class App {
             res.send(this.profile);
         });
         router.put('user/:userID/profile/:newLibrary', (req, res) => {
-
+            this.userLibrary = new Library(req.body['name'], req.body['id']);
+            this.userLibrary.createNewLibrary(req.body['libId']);
+            res.json({
+                'Success' : true
+            });
+        });
+        router.put('user/:userID/profile/:library/add-game', (req, res) => {
+            const game = JSON.parse(req.body);
+            const newGame: Game = new Game(null);
+            newGame.setTitle(game.title);
+            newGame.setDeveloper(game.developer);
+            newGame.setLibrary(game.library);
+            newGame.setPublisher(game.publisher);
+            newGame.setLicensor(game.licensor);
+            newGame.setSystem(game.system);
+            if (!(game.wish === undefined)) {
+                newGame.setWishedFor(game.wish);
+            }
+            this.userLibrary = new Library(req.body['name'], req.body['id']);
+            this.userLibrary.addGame(newGame);
+            res.json({
+                'Success' : true
+            });
         });
         router.get('user/:userID/profile/:library', (req, res) => {
             this.userLibrary = new Library(req.body['name'], this.user.getID());
@@ -110,8 +139,7 @@ class App {
             res.send(this.developerLibrary);
         });
         router.get('/forum', (req, res) => {
-            this.thread = new Thread();
-
+            res.send(this.thread.getAllTopics());
         });
 
         router.param('thread', (req, res, next, thread) => {
@@ -120,10 +148,15 @@ class App {
             }
             next();
         });
-
+        router.put('/forum/new-thread', (req, res) => {
+            this.thread.createThread(req.body['message'], req.body['id'], req.body['title']);
+            res.json({
+                'Success' : true
+            });
+        });
         router.get('/forum/:thread', (req, res) => {
-            res.json(this.thread.getQuestion);
-            res.json(this.thread.getComments);
+            res.send(this.thread.getQuestion());
+            res.send(this.thread.getComments());
         });
         this.express.use('/', router);
     }
