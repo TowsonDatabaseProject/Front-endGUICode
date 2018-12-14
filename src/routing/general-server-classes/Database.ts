@@ -5,7 +5,8 @@ class Database {
         host: '127.0.0.1',
         username: 'alynch14',
         password: 'Cosc*kffb',
-        database: 'alynch14db'
+        database: 'alynch14db',
+        insecureAuth: true
     });
 
     constructor() {
