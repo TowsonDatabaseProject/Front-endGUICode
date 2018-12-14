@@ -14,24 +14,24 @@ export default class ForumThread {
 
     public async getThreadInfo(titleOfThread: String) {
         this.title = titleOfThread;
-        this.id = await connection.query('SELECT TopicID FROM Topics WHERE Title = ' + this.title, (err) => {
+        this.id = await connection.query('SELECT TopicID FROM Topics WHERE Title = \'' + this.title + '\';', (err) => {
             if (err) {
                 throw err;
             }
             console.log('Got thread ID');
         });
-        this.question = await connection.query('SELECT Body FROM Topics WHERE TopicID = ' + this.id, (err) => {
+        this.question = await connection.query('SELECT Message FROM Topics WHERE TopicID = \'' + this.id + '\';', (err) => {
             if (err) {
                 throw err;
             }
             console.log('Got thread question');
         });
-        this.comments.fill(await connection.query('SELECT Message FROM Comments WHERE ID = ' + this.id, (err) => {
+        this.comments = await connection.query('SELECT Message FROM Comments WHERE CommentID = \'' + this.id + '\';', (err) => {
             if (err) {
                 throw err;
             }
             console.log('Got comments for thread');
-        }), 0, -1);
+        });
         return !isNull(this.id);
     }
 
@@ -45,5 +45,24 @@ export default class ForumThread {
 
     public getComments(): String[] {
         return this.comments;
+    }
+
+    public async createThread(message: String, id: String, title: String) {
+        await connection.query('INSERT INTO Topics (ThreadID, TopicTitle, Message)'
+        + ' VALUES (\'' + id + '\', \'' + title + '\', \'' + message + '\');', (err) => {
+            if (err) {
+                throw err;
+            }
+            console.log('Inserted new Thread into Forum');
+        });
+    }
+
+    public async getAllTopics() {
+        return await connection.query('SELECT TopicTitle FROM Topics;', (err) => {
+            if (err) {
+                throw err;
+            }
+            console.log('Got all topics');
+        });
     }
 }

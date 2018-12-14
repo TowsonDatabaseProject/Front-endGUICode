@@ -11,6 +11,5 @@ export default this.connection.connect((err) => {
     if (err) {
         throw err;
     }
-    console.log('Connected!');
+    console.log('Connected to the Database!');
 });
-// export default new Database().connection;
