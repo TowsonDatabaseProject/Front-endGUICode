@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -17,7 +18,6 @@ const routes = [
   { path: 'library', component: LibraryComponent },
   { path: 'userpage', component: UserPageComponent }
 ];
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,4 +37,3 @@ const routes = [
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-
