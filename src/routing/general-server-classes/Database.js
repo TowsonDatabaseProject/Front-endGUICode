@@ -1,13 +1,13 @@
-const mysql = require('mysql');
-
-const connection = mysql.createConnection({
+"use strict";
+exports.__esModule = true;
+var mysql = require('mysql');
+var connection = mysql.createConnection({
     host: '127.0.0.1:3360',
     username: 'alynch14',
     password: 'Cosc*kffb',
     database: 'alynch14db'
 });
-
-export default connection.connect((err) => {
+exports["default"] = connection.connect(function (err) {
     if (err) {
         throw err;
     }
