@@ -59,4 +59,16 @@ export default class Post {
         + ' VALUES \( \'' + this.id + '\', \'' + this.ownerId + '\', \'' + message + '\', \'' + this.ownerId + '\', \'' + this.timePosted
         + '\', \'' + user.getUsername() + '\'\);');
     }
+
+    public getUser() {
+        return this.ownerId;
+    }
+
+    public getUsername() {
+        return this.ownerUsername;
+    }
+
+    public getPostId() {
+        return this.id;
+    }
 }

@@ -55,9 +55,9 @@ export default class Library {
         });
     }
 
-    public async createNewLibrary(name: String, id: String, owner: String) {
+    public async createNewLibrary(libId: String) {
         await connection.query('INSERT INTO Library (LibID, LibName, OwnerID) VALUES (\''
-        + id + '\', \'' + name + '\', \'' + owner + '\');', (err) => {
+        + libId + '\', \'' + this.name + '\', \'' + this.ownerID + '\');', (err) => {
             if (err) {
                 throw err;
             }
