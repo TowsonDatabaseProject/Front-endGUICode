@@ -80,7 +80,7 @@ class App {
 
         router.get('user/:userID/profile', (req, res) => {
             this.profile.setID(this.user.getID());
-            res.send(this.profile);
+            res.send(JSON.stringify(this.profile));
         });
         router.put('user/:userID/profile/:newLibrary', (req, res) => {
             this.userLibrary = new Library(req.body['name'], req.body['id']);
@@ -109,7 +109,7 @@ class App {
         });
         router.get('user/:userID/profile/:library', (req, res) => {
             this.userLibrary = new Library(req.body['name'], this.user.getID());
-            res.send(this.userLibrary.getGameList());
+            res.send(JSON.stringify(this.userLibrary.getGameList()));
         });
         router.put('/:user/newGame', (req, res) => {
             const game = JSON.parse(req.body);
@@ -128,18 +128,18 @@ class App {
         });
         router.get('/:systemName', (req, res) => {
             this.systemLibrary = new SystemLibrary(req.body['System Name']);
-            res.send(this.systemLibrary);
+            res.send(JSON.stringify(this.systemLibrary));
         });
         router.get('/:publisher', (req, res) => {
-            this.publisherLibrary = new PublisherLibrary(req.params.publisher);
-            res.send(this.publisherLibrary);
+            this.publisherLibrary = new PublisherLibrary(req.body['name']);
+            res.send(JSON.stringify(this.publisherLibrary));
         });
         router.get('/:developer', (req, res) => {
-            this.developerLibrary = new DeveloperLibrary(req.params.developer);
-            res.send(this.developerLibrary);
+            this.developerLibrary = new DeveloperLibrary(req.body['name']);
+            res.send(JSON.stringify(this.developerLibrary));
         });
         router.get('/forum', (req, res) => {
-            res.send(this.thread.getAllTopics());
+            res.send(JSON.stringify(this.thread.getAllTopics()));
         });
 
         router.param('thread', (req, res, next, thread) => {
