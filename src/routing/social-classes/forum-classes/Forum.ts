@@ -5,7 +5,7 @@ export default class Forum {
 
     constructor() {
         async function queryDatabase() {
-            this.threads = await connection.query('SELECT TopicTitle FROM Topics;', (err) => {
+            this.threads = await connection.query('SELECT Topics FROM DebateBoard;', (err) => {
                 if (err) {
                     throw err;
                 }
