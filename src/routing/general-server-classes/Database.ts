@@ -1,15 +1,22 @@
-const mysql = require('mysql');
+class Database {
+    private mysql = require('mysql');
 
-const connection = this.mysql.createConnection({
-    host: '127.0.0.1:3360',
-    username: 'alynch14',
-    password: 'Cosc*kffb',
-    database: 'alynch14db'
-});
+    connection = this.mysql.createConnection({
+        host: '127.0.0.1',
+        username: 'alynch14',
+        password: 'Cosc*kffb',
+        database: 'alynch14db'
+    });
 
-export default this.connection.connect((err) => {
-    if (err) {
-        throw err;
+    constructor() {
+        this.connection.connect((err) => {
+            if (err) {
+                throw err;
+            }
+            console.log('Connected!');
+        });
     }
-    console.log('Connected to the Database!');
-});
+}
+
+export default new Database().connection;
+
