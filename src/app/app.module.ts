@@ -6,10 +6,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './../login.component';
-import { RegisterComponent } from './../register.component';
-import { LibraryComponent } from './../library.component';
-import { UserPageComponent } from './../user-page.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { LibraryComponent } from './library/library.component';
+import { UserPageComponent } from './user-page/user-page.component';
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
