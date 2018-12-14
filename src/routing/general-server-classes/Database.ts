@@ -3,9 +3,10 @@ class Database {
 
     connection = this.mysql.createConnection({
         host: '127.0.0.1',
-        username: 'alynch14',
+        user: 'alynch14',
         password: 'Cosc*kffb',
         database: 'alynch14db',
+        port: 3360,
         insecureAuth: true
     });
 

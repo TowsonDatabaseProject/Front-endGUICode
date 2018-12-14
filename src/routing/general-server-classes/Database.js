@@ -5,9 +5,11 @@ var Database = /** @class */ (function () {
         this.mysql = require('mysql');
         this.connection = this.mysql.createConnection({
             host: '127.0.0.1',
-            username: 'alynch14',
+            user: 'alynch14',
             password: 'Cosc*kffb',
-            database: 'alynch14db'
+            database: 'alynch14db',
+            port: 3360,
+            insecureAuth: true
         });
         this.connection.connect(function (err) {
             if (err) {

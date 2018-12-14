@@ -1,8 +1,7 @@
 import app from './App';
 
-const port = process.env.PORT || 3360;
 
-app.listen(port, (err) => {
+app.listen( (err) => {
     if (err) {
         return console.log(err);
     }
