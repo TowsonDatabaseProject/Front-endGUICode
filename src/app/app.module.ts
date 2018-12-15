@@ -12,7 +12,7 @@ import { LibraryComponent } from './library/library.component';
 import { UserPageComponent } from './user-page/user-page.component';
 
 const routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'library', component: LibraryComponent },
