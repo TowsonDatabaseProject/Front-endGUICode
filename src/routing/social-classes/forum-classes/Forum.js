@@ -38,6 +38,7 @@ exports.__esModule = true;
 var Database_1 = require("./../../general-server-classes/Database");
 var Forum = /** @class */ (function () {
     function Forum() {
+        this.threads = new Array();
         function queryDatabase() {
             return __awaiter(this, void 0, void 0, function () {
                 var _a;
@@ -52,7 +53,7 @@ var Forum = /** @class */ (function () {
                                     console.log('Got topics.');
                                 })];
                         case 1:
-                            _a.threads = _b.sent();
+                            _a.threads = (_b.sent());
                             return [2 /*return*/];
                     }
                 });

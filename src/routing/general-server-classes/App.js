@@ -66,7 +66,7 @@ var App = /** @class */ (function () {
             _this.userLibrary = new Library_1["default"](req.body['name'], req.body['id']);
             _this.userLibrary.createNewLibrary(req.body['libId']);
             res.json({
-                'Success': true
+                Success: true
             });
         });
         router.put('user/:userID/profile/:library/add-game', function (req, res) {
@@ -84,7 +84,7 @@ var App = /** @class */ (function () {
             _this.userLibrary = new Library_1["default"](req.body['name'], req.body['id']);
             _this.userLibrary.addGame(newGame);
             res.json({
-                'Success': true
+                Success: true
             });
         });
         router.get('user/:userID/profile/:library', function (req, res) {
