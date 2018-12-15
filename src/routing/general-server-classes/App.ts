@@ -86,7 +86,7 @@ class App {
             this.userLibrary = new Library(req.body['name'], req.body['id']);
             this.userLibrary.createNewLibrary(req.body['libId']);
             res.json({
-                'Success' : true
+                Success: true
             });
         });
         router.put('user/:userID/profile/:library/add-game', (req, res) => {
@@ -104,7 +104,7 @@ class App {
             this.userLibrary = new Library(req.body['name'], req.body['id']);
             this.userLibrary.addGame(newGame);
             res.json({
-                'Success' : true
+                Success: true
             });
         });
         router.get('user/:userID/profile/:library', (req, res) => {
